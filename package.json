@@ -9,7 +9,7 @@
     "npm",
     "music"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "author": "mrluisfer",
   "type": "commonjs",
   "main": "dist/index.js",
@@ -28,6 +28,22 @@
     "typescript": "^5.7.3"
   },
   "lint-staged": {
+    "*.{js,ts}": "eslint --cache --fix",
     "**/*": "prettier --write --ignore-unknown"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mrLuisFer/spotify-api-kit"
+  },
+  "typings": "src/types.d.ts",
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node",
+    "testURL": "http://localhost/"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

@@ -39,57 +39,49 @@ export class SpotifyClient {
     return SpotifyClient.instance;
   }
 
-  public async getRefreshToken() {
+  private async requestToken(bodyParams: Record<string, string>, errorType: string) {
     const response = await fetch(API_TOKEN_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Basic ${Buffer.from(`${this.clientId}:${this.clientSecret}`).toString("base64")}`,
       },
-      body: new URLSearchParams({
+      body: new URLSearchParams(bodyParams).toString(),
+    });
+
+    if (!response.ok) {
+      throw new Error(errorType);
+    }
+
+    return response.json();
+  }
+
+  public async getAccessToken(): Promise<AccessToken> {
+    return this.requestToken(
+      {
+        grant_type: "client_credentials",
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+      },
+      ApiErrors.AccessToken,
+    );
+  }
+
+  public async getRefreshToken(): Promise<RefreshToken> {
+    const data = await this.requestToken(
+      {
         grant_type: "refresh_token",
         refresh_token: this.accessToken?.access_token || "",
         client_id: this.clientId,
-      }).toString(),
-    });
+      },
+      ApiErrors.RefreshToken,
+    );
 
-    if (!response) {
-      throw new Error(ApiErrors.RefreshToken);
-    }
-    const data: RefreshToken = await response.json();
-    if (!data) {
-      throw new Error(ApiErrors.RefreshToken);
-    }
     this.accessToken = {
       access_token: data.access_token,
       token_type: data.token_type,
       expires_in: data.expires_in,
     };
-    return data;
-  }
-
-  public async getAccessToken(): Promise<AccessToken> {
-    const response = await fetch(API_TOKEN_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${Buffer.from(`${this.clientId}:${this.clientSecret}`).toString("base64")}`,
-      },
-      body: new URLSearchParams({
-        grant_type: "client_credentials",
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-      }).toString(),
-    });
-
-    if (!response) {
-      throw new Error(ApiErrors.AccessToken);
-    }
-
-    const data: AccessToken = await response.json();
-    if (!data) {
-      throw new Error(ApiErrors.AccessToken);
-    }
 
     return data;
   }

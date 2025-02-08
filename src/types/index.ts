@@ -1,5 +1,3 @@
-import { SpotifyClient } from "./SpotifyClient";
-
 export type AccessToken = {
   access_token: string;
   token_type: string;
@@ -36,7 +34,7 @@ export type SpotifyArtist = {
   }[];
   name: string;
   popularity: number;
-  type: "artist";
+  type: 'artist';
   uri: string;
 };
 
@@ -60,7 +58,7 @@ export type AlbumImage = {
 };
 
 export type Album = {
-  album_type: "album" | "single" | "compilation";
+  album_type: 'album' | 'single' | 'compilation';
   artists: Artist[];
   available_markets: string[];
   external_urls: ExternalUrls;
@@ -69,9 +67,9 @@ export type Album = {
   images: AlbumImage[];
   name: string;
   release_date: string;
-  release_date_precision: "year" | "month" | "day";
+  release_date_precision: 'year' | 'month' | 'day';
   total_tracks: number;
-  type: "album";
+  type: 'album';
   uri: string;
 };
 
@@ -95,7 +93,7 @@ export type SpotifyTrack = {
   popularity: number;
   preview_url: string | null;
   track_number: number;
-  type: "track";
+  type: 'track';
   uri: string;
 };
 
@@ -181,30 +179,28 @@ export type SpotifyPlayingTrack = {
 };
 
 export type SpotifyScopes = {
-  Images: "ugc-image-upload";
+  Images: 'ugc-image-upload';
   SpotifyConnect:
-    | "user-read-playback-state"
-    | "user-modify-playback-state"
-    | "user-read-currently-playing";
-  Playback: "app-remote-control" | "streaming";
+    | 'user-read-playback-state'
+    | 'user-modify-playback-state'
+    | 'user-read-currently-playing';
+  Playback: 'app-remote-control' | 'streaming';
   Playlists:
-    | "playlist-read-private"
-    | "playlist-read-collaborative"
-    | "playlist-modify-private"
-    | "playlist-modify-public";
-  Follow: "user-follow-modify" | "user-follow-read";
+    | 'playlist-read-private'
+    | 'playlist-read-collaborative'
+    | 'playlist-modify-private'
+    | 'playlist-modify-public';
+  Follow: 'user-follow-modify' | 'user-follow-read';
   ListeningHistory:
-    | "user-read-playback-position"
-    | "user-top-read"
-    | "user-read-recently-played";
-  Library: "user-library-modify" | "user-library-read";
-  Users: "user-read-email" | "user-read-private";
+    | 'user-read-playback-position'
+    | 'user-top-read'
+    | 'user-read-recently-played';
+  Library: 'user-library-modify' | 'user-library-read';
+  Users: 'user-read-email' | 'user-read-private';
   OpenAccess:
-    | "user-soa-link"
-    | "user-soa-unlink"
-    | "soa-manage-entitlements"
-    | "soa-manage-partner"
-    | "soa-create-partner";
+    | 'user-soa-link'
+    | 'user-soa-unlink'
+    | 'soa-manage-entitlements'
+    | 'soa-manage-partner'
+    | 'soa-create-partner';
 };
-
-export type SpotifyClientApi = SpotifyClient;

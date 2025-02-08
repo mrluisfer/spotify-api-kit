@@ -1,4 +1,4 @@
-import { type SpotifyArtist } from "../types";
+import { type SpotifyArtist } from "../types/types";
 
 export const artistMock: SpotifyArtist = {
   external_urls: {

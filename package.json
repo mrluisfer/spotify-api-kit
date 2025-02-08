@@ -1,6 +1,6 @@
 {
   "name": "spotify-api-kit",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Basic Node.js kit/wrapper for Spotify Web API, built in TypeScript",
   "engines": {
     "node": ">=22.0.0"
@@ -63,5 +63,9 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

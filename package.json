@@ -1,7 +1,10 @@
 {
   "name": "spotify-api-kit",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Basic Node.js kit/wrapper for Spotify Web API, built in TypeScript",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "keywords": [
     "spotify",
     "node.js",
@@ -17,7 +20,7 @@
     "test": "jest --verbose",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint .",
     "build": "tsc --build",
     "start": "node ./dist/index.js",
     "format": "prettier . --write",
@@ -47,13 +50,14 @@
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --cache --fix",
+    "*.{js,css,md,json}": "prettier --single-quote --trailing-comma none --write '{**/*.ts,**/*.js,*.md,__test__/**/*.json}'",
     "**/*": "prettier --write --ignore-unknown"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/mrLuisFer/spotify-api-kit"
   },
-  "typings": "src/types.d.ts",
+  "typings": "dist/types/index.d.ts",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

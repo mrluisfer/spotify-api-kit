@@ -13,10 +13,7 @@ describe("SpotifyClient", () => {
   });
 
   it("should initialize a single instance", () => {
-    const client2 = SpotifyClient.init(
-      "another-client-id",
-      "another-client-secret",
-    );
+    const client2 = SpotifyClient.init("another-client-id", "another-client-secret");
     expect(client2).toBe(spotify);
   });
 
@@ -72,9 +69,7 @@ describe("SpotifyClient", () => {
   });
 
   it("should fetch data from Spotify API with a valid token", async () => {
-    jest
-      .spyOn(spotify, "getValidAccessToken")
-      .mockResolvedValue("mock-access-token");
+    jest.spyOn(spotify, "getValidAccessToken").mockResolvedValue("mock-access-token");
 
     global.fetch = jest.fn(async () =>
       Promise.resolve({

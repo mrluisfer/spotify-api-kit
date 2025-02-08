@@ -1,10 +1,6 @@
 import { artistMock } from "../../__mocks__/artist.mock";
 import { SpotifyClient } from "../../SpotifyClient";
-import {
-  CLIENT_ID,
-  CLIENT_SECRET,
-  SPOTIFY_ARTIST_ID,
-} from "../../utils/constants";
+import { CLIENT_ID, CLIENT_SECRET, SPOTIFY_ARTIST_ID } from "../../utils/constants";
 
 describe("artists service", () => {
   let spotifyClient: SpotifyClient;

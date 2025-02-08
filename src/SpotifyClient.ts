@@ -68,8 +68,8 @@ export class SpotifyClient {
     return this.accessToken.access_token;
   }
 
-  public async fetchFromSpotify<T>(endpoint: string) {
-    const token = await this.getValidAccessToken();
+  public async fetchFromSpotify<T>(endpoint: string, manualToken?: string) {
+    const token = manualToken || (await this.getValidAccessToken());
     const formattedEndpoint = endpoint.startsWith("/")
       ? endpoint
       : `/${endpoint}`;

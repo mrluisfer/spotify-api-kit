@@ -15,13 +15,13 @@ export class SpotifyClient {
     this.clientSecret = clientSecret;
   }
 
-  public static init(clientId: string, clientSecret: string) {
+  init(clientId: string, clientSecret: string) {
     SpotifyClient.instance ||= new SpotifyClient(clientId, clientSecret);
 
     return SpotifyClient.instance;
   }
 
-  public static getInstance() {
+  getInstance() {
     if (!SpotifyClient.instance) {
       throw new Error(ApiErrors.InstanceNotInitialized);
     }

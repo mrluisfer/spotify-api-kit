@@ -20,9 +20,9 @@ export class SpotifyClient {
     this.clientId = clientId;
     this.clientSecret = clientSecret;
 
-    this.artists = new ArtistsService();
-    this.player = new PlayerService();
-    this.tracks = new TracksService();
+    this.artists = new ArtistsService(this);
+    this.player = new PlayerService(this);
+    this.tracks = new TracksService(this);
   }
 
   public static init(clientId: string, clientSecret: string) {

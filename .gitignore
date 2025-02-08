@@ -8,6 +8,7 @@
 *.indd
 *.prproj
 *.aep
+src/auth.ts
 
 ### Node ###
 # Logs

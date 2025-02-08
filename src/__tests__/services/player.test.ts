@@ -1,10 +1,11 @@
 import { CLIENT_ID, CLIENT_SECRET } from "../../utils/constants";
 import { SpotifyClient } from "../../SpotifyClient";
-import { getCurrentPlayingTrack } from "../../services/player";
 
 describe("player service", () => {
+  let spotifyClient: SpotifyClient;
   beforeEach(() => {
     SpotifyClient.init(CLIENT_ID!, CLIENT_SECRET!);
+    spotifyClient = SpotifyClient.getInstance();
   });
 
   afterEach(() => {
@@ -12,7 +13,7 @@ describe("player service", () => {
   });
 
   it("should get current playing track", async () => {
-    const result = await getCurrentPlayingTrack();
+    const result = await spotifyClient.player.getCurrentPlayingTrack();
     console.log(result);
   });
 });

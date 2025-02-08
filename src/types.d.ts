@@ -6,6 +6,11 @@ export type AccessToken = {
   expires_in: number;
 };
 
+export interface RefreshToken extends AccessToken {
+  refresh_token: string;
+  scope: string;
+}
+
 /**
  * The base-62 identifier found at the end of the Spotify URI (see above) for an artist, track, album, playlist, etc. Unlike a Spotify URI, a Spotify ID does not clearly identify the type of resource; that information is provided elsewhere in the call.
  *

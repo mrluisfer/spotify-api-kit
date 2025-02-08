@@ -1,9 +1,9 @@
-import { ApiErrors } from './utils/errors';
-import { API_TOKEN_URL, API_URL } from './utils/constants';
-import { RefreshToken, type AccessToken } from './types/types';
-import { ArtistsService } from './services/artists';
-import { PlayerService } from './services/player';
-import { TracksService } from './services/tracks';
+import { ApiErrors } from "./utils/errors";
+import { API_TOKEN_URL, API_URL } from "./utils/constants";
+import { RefreshToken, type AccessToken } from "./types/types";
+import { ArtistsService } from "./services/artists";
+import { PlayerService } from "./services/player";
+import { TracksService } from "./services/tracks";
 
 export class SpotifyClient {
   public accessToken: AccessToken | undefined;
@@ -41,16 +41,16 @@ export class SpotifyClient {
 
   public async getRefreshToken() {
     const response = await fetch(API_TOKEN_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${Buffer.from(`${this.clientId}:${this.clientSecret}`).toString('base64')}`
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Basic ${Buffer.from(`${this.clientId}:${this.clientSecret}`).toString("base64")}`,
       },
       body: new URLSearchParams({
-        grant_type: 'refresh_token',
-        refresh_token: this.accessToken?.access_token || '',
-        client_id: this.clientId
-      }).toString()
+        grant_type: "refresh_token",
+        refresh_token: this.accessToken?.access_token || "",
+        client_id: this.clientId,
+      }).toString(),
     });
 
     if (!response) {
@@ -63,24 +63,23 @@ export class SpotifyClient {
     this.accessToken = {
       access_token: data.access_token,
       token_type: data.token_type,
-      expires_in: data.expires_in
+      expires_in: data.expires_in,
     };
     return data;
   }
 
   public async getAccessToken(): Promise<AccessToken> {
     const response = await fetch(API_TOKEN_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${Buffer.from(`${this.clientId}:${this.clientSecret}`).toString('base64')}`
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Basic ${Buffer.from(`${this.clientId}:${this.clientSecret}`).toString("base64")}`,
       },
       body: new URLSearchParams({
-        grant_type: 'client_credentials',
+        grant_type: "client_credentials",
         client_id: this.clientId,
         client_secret: this.clientSecret,
-        scope: 'user-read-email user-read-currently-playing'
-      }).toString()
+      }).toString(),
     });
 
     if (!response) {
@@ -88,7 +87,6 @@ export class SpotifyClient {
     }
 
     const data: AccessToken = await response.json();
-    console.log({ data });
     if (!data) {
       throw new Error(ApiErrors.AccessToken);
     }
@@ -109,16 +107,13 @@ export class SpotifyClient {
 
   public async fetchFromSpotify<T>(endpoint: string, manualToken?: string) {
     const token = manualToken || (await this.getValidAccessToken());
-    const formattedEndpoint = endpoint.startsWith('/')
-      ? endpoint
-      : `/${endpoint}`;
+    const formattedEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
 
-    console.log({ token });
     const response = await fetch(`${API_URL}${formattedEndpoint}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (!response) {

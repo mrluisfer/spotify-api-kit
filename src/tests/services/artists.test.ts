@@ -9,7 +9,7 @@ import {
 
 describe("artists service", () => {
   beforeEach(() => {
-    SpotifyClient.init(CLIENT_ID, CLIENT_SECRET);
+    SpotifyClient.init(CLIENT_ID!, CLIENT_SECRET!);
   });
 
   afterEach(() => {

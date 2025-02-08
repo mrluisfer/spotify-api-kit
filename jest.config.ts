@@ -7,10 +7,10 @@ const jestConfig: JestConfigWithTsJest = {
   clearMocks: true,
   coverageDirectory: "coverage",
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/$1"
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
   verbose: true,
-  collectCoverage: true
+  collectCoverage: true,
 };
 
 export default jestConfig;

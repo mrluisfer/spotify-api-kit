@@ -1,3 +1,5 @@
+import { SpotifyClient } from "./SpotifyClient";
+
 export type AccessToken = {
   access_token: string;
   token_type: string;
@@ -199,3 +201,5 @@ export type SpotifyScopes = {
     | "soa-manage-partner"
     | "soa-create-partner";
 };
+
+export type SpotifyClientApi = SpotifyClient;

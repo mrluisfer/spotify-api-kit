@@ -1,7 +1,7 @@
-import { CLIENT_ID, CLIENT_SECRET } from '../../utils/constants';
-import { SpotifyClient } from '../../SpotifyClient';
+import { CLIENT_ID, CLIENT_SECRET } from "../../utils/constants";
+import { SpotifyClient } from "../../SpotifyClient";
 
-describe('player service', () => {
+describe("player service", () => {
   let spotifyClient: SpotifyClient;
   beforeEach(() => {
     SpotifyClient.init(CLIENT_ID!, CLIENT_SECRET!);
@@ -12,7 +12,7 @@ describe('player service', () => {
     jest.resetAllMocks();
   });
 
-  it('should get current playing track', async () => {
+  it("should get current playing track", async () => {
     const result = await spotifyClient.player.getCurrentPlayingTrack();
     console.log(result);
   });

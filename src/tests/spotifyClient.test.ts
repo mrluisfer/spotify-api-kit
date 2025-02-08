@@ -1,11 +1,11 @@
 import { SpotifyClient } from "../SpotifyClient";
-import { API_URL } from "../utils/constants";
+import { API_URL, CLIENT_ID, CLIENT_SECRET } from "../utils/constants";
 
 describe("SpotifyClient", () => {
   let spotify: SpotifyClient;
 
   beforeEach(() => {
-    spotify = SpotifyClient.init("test-client-id", "test-client-secret");
+    spotify = SpotifyClient.init(CLIENT_ID!, CLIENT_SECRET!);
   });
 
   afterEach(() => {

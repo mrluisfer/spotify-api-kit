@@ -1,9 +1,5 @@
 import { SpotifyClient } from "../../SpotifyClient";
-import {
-  CLIENT_ID,
-  CLIENT_SECRET,
-  SPOTIFY_TRACK_ID,
-} from "../../utils/constants";
+import { CLIENT_ID, CLIENT_SECRET, SPOTIFY_TRACK_ID } from "../../utils/constants";
 import { trackMock } from "../../__mocks__/track.mock";
 
 describe("tracks service", () => {

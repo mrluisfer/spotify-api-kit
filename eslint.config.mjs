@@ -149,10 +149,7 @@ export default [
       "**/*.scss.map",
     ],
   },
-  ...compat.extends(
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-  ),
+  ...compat.extends("eslint:recommended", "plugin:@typescript-eslint/recommended"),
   {
     plugins: {
       "@typescript-eslint": typescriptEslint,

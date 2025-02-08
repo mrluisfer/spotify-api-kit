@@ -1,6 +1,6 @@
-import { SpotifyClient } from "../SpotifyClient";
-import { ApiErrors } from "../utils/errors";
-import { SpotifyPlayingTrack } from "../types/types";
+import { SpotifyClient } from '../SpotifyClient';
+import { ApiErrors } from '../utils/errors';
+import { SpotifyPlayingTrack } from '../types';
 
 export class PlayerService {
   private spotifyClient: SpotifyClient;
@@ -11,7 +11,7 @@ export class PlayerService {
 
   public async getCurrentPlayingTrack() {
     const response = await this.spotifyClient.fetchFromSpotify<SpotifyPlayingTrack>(
-      `/me/player/currently-playing`,
+      `/me/player/currently-playing`
     );
     if (!response) {
       throw new Error(ApiErrors.FetchData);

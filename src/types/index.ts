@@ -191,10 +191,7 @@ export type SpotifyScopes = {
     | 'playlist-modify-private'
     | 'playlist-modify-public';
   Follow: 'user-follow-modify' | 'user-follow-read';
-  ListeningHistory:
-    | 'user-read-playback-position'
-    | 'user-top-read'
-    | 'user-read-recently-played';
+  ListeningHistory: 'user-read-playback-position' | 'user-top-read' | 'user-read-recently-played';
   Library: 'user-library-modify' | 'user-library-read';
   Users: 'user-read-email' | 'user-read-private';
   OpenAccess:

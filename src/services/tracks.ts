@@ -1,6 +1,6 @@
-import { SpotifyId, SpotifyTrack } from "../types/types";
-import { SpotifyClient } from "../SpotifyClient";
-import { ApiErrors } from "../utils/errors";
+import { SpotifyId, SpotifyTrack } from '../types';
+import { SpotifyClient } from '../SpotifyClient';
+import { ApiErrors } from '../utils/errors';
 
 export class TracksService {
   private spotifyClient: SpotifyClient;

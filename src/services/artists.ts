@@ -1,5 +1,5 @@
 import { ApiErrors } from "../utils/errors";
-import { type SpotifyArtist, type SpotifyId } from "../types";
+import { Artist, type SpotifyId } from "../types";
 import { SpotifyClient } from "../SpotifyClient";
 
 export class ArtistsService {
@@ -11,7 +11,7 @@ export class ArtistsService {
 
   // reference: https://developer.spotify.com/documentation/web-api/reference/get-an-artist
   public async getArtist(id: SpotifyId) {
-    const response = await this.spotifyClient.fetchFromSpotify<SpotifyArtist>(`/artists/${id}`);
+    const response = await this.spotifyClient.fetchFromSpotify<Artist>(`/artists/${id}`);
     if (!response) {
       throw new Error(ApiErrors.FetchData);
     }

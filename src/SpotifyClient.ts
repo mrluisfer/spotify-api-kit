@@ -4,6 +4,7 @@ import { RefreshToken, type AccessToken } from "./types";
 import { ArtistsService } from "./services/artists";
 import { PlayerService } from "./services/player";
 import { TracksService } from "./services/tracks";
+import { PlaylistsService } from "./services/playlists";
 
 export class SpotifyClient {
   public accessToken: AccessToken | undefined;
@@ -11,9 +12,11 @@ export class SpotifyClient {
   private readonly clientSecret: string;
   private static instance: SpotifyClient | null;
 
+  // TODO: Verify if this is the correct way to initialize the services, or use other pattern
   public artists: ArtistsService;
   public player: PlayerService;
   public tracks: TracksService;
+  public playlists: PlaylistsService;
 
   // This will be provided by the user
   constructor(clientId: string, clientSecret: string) {
@@ -23,6 +26,7 @@ export class SpotifyClient {
     this.artists = new ArtistsService(this);
     this.player = new PlayerService(this);
     this.tracks = new TracksService(this);
+    this.playlists = new PlaylistsService(this);
   }
 
   public static init(clientId: string, clientSecret: string) {

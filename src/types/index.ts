@@ -97,6 +97,10 @@ export type SpotifyTrack = {
   uri: string;
 };
 
+export type SpotifySeveralTracks = {
+  tracks: SpotifyTrack[];
+};
+
 export type SpotifyPlayingTrack = {
   timestamp: number;
   context: {

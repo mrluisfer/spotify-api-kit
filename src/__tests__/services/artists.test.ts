@@ -6,14 +6,12 @@ describe("artists service", () => {
   let spotifyClient: SpotifyClient;
 
   beforeEach(() => {
-    SpotifyClient.init(CLIENT_ID!, CLIENT_SECRET!);
-    spotifyClient = SpotifyClient.getInstance();
+    spotifyClient = new SpotifyClient(CLIENT_ID!, CLIENT_SECRET!);
   });
 
   afterEach(() => {
     jest.resetAllMocks();
   });
-
   it("should get artist", async () => {
     const result = await spotifyClient.artists.getArtist(SPOTIFY_ARTIST_ID);
     expect(result.id).toEqual(artistMock.id);

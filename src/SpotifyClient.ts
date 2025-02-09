@@ -9,7 +9,7 @@ export class SpotifyClient {
   public accessToken: AccessToken | undefined;
   private readonly clientId: string;
   private readonly clientSecret: string;
-  private static instance: SpotifyClient;
+  private static instance: SpotifyClient | null;
 
   public artists: ArtistsService;
   public player: PlayerService;
@@ -37,6 +37,10 @@ export class SpotifyClient {
     }
 
     return SpotifyClient.instance;
+  }
+
+  static resetInstance() {
+    SpotifyClient.instance = null;
   }
 
   private async requestToken(bodyParams: Record<string, string>, errorType: string) {

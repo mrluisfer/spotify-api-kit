@@ -11,6 +11,7 @@ describe("player service", () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
+
   it("should get current playing track", async () => {
     const result = await spotifyClient.player.getCurrentPlayingTrack();
     console.log(result);

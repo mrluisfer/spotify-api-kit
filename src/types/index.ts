@@ -33,6 +33,10 @@ export type Artist = {
   name: string;
   type: "artist";
   uri: string;
+  followers?: Followers;
+  genres?: string[];
+  images?: Image[];
+  popularity?: number;
 };
 
 export type Album = {

@@ -48,11 +48,12 @@ export class SpotifyClient {
   }
 
   private async requestToken(bodyParams: Record<string, string>, errorType: string) {
+    const credentials = btoa(`${this.clientId}:${this.clientSecret}`);
     const response = await fetch(API_TOKEN_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${Buffer.from(`${this.clientId}:${this.clientSecret}`).toString("base64")}`,
+        Authorization: `Basic ${credentials}`,
       },
       body: new URLSearchParams(bodyParams).toString(),
     });

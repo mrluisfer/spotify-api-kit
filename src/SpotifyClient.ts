@@ -1,4 +1,4 @@
-import { Buffer } from "buffer";
+import { Buffer as DependencyBuffer } from "buffer";
 import { ArtistsService } from "./services/artists";
 import { PlayerService } from "./services/player";
 import { PlaylistsService } from "./services/playlists";
@@ -11,6 +11,7 @@ export class SpotifyClient {
 	public accessToken: AccessToken | undefined;
 	private readonly clientId: string;
 	private readonly clientSecret: string;
+	private readonly credentials: string;
 	private static instance: SpotifyClient | null;
 
 	// TODO: Verify if this is the correct way to initialize the services, or use other pattern
@@ -20,9 +21,12 @@ export class SpotifyClient {
 	public playlists: PlaylistsService;
 
 	// This will be provided by the user
-	constructor(clientId: string, clientSecret: string) {
+	constructor(clientId: string, clientSecret: string, credentials?: string) {
 		this.clientId = clientId;
 		this.clientSecret = clientSecret;
+		this.credentials =
+			credentials ||
+			DependencyBuffer.from(`${clientId}:${clientSecret}`).toString("base64");
 
 		this.artists = new ArtistsService(this);
 		this.player = new PlayerService(this);
@@ -52,15 +56,11 @@ export class SpotifyClient {
 		bodyParams: Record<string, string>,
 		errorType: string,
 	) {
-		const credentials = Buffer.from(
-			`${this.clientId}:${this.clientSecret}`,
-		).toString("base64");
-
 		const response = await fetch(API_TOKEN_URL, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded",
-				Authorization: `Basic ${credentials}`,
+				Authorization: `Basic ${this.credentials}`,
 			},
 			body: new URLSearchParams(bodyParams).toString(),
 		});

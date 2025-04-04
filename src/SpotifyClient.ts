@@ -1,3 +1,4 @@
+import { Buffer } from "buffer";
 import { ArtistsService } from "./services/artists";
 import { PlayerService } from "./services/player";
 import { PlaylistsService } from "./services/playlists";
@@ -51,7 +52,9 @@ export class SpotifyClient {
 		bodyParams: Record<string, string>,
 		errorType: string,
 	) {
-		const credentials = btoa(`${this.clientId}:${this.clientSecret}`);
+		const credentials = Buffer.from(
+			`${this.clientId}:${this.clientSecret}`,
+		).toString("base64");
 
 		const response = await fetch(API_TOKEN_URL, {
 			method: "POST",

@@ -31,7 +31,7 @@ export type Artist = {
   href: string;
   id: SpotifyId;
   name: string;
-  type: "artist";
+  type: 'artist';
   uri: string;
   followers?: Followers;
   genres?: string[];
@@ -40,7 +40,7 @@ export type Artist = {
 };
 
 export type Album = {
-  album_type: "album" | "single" | "compilation";
+  album_type: 'album' | 'single' | 'compilation';
   artists: Artist[];
   available_markets: string[];
   external_urls: ExternalUrls;
@@ -49,9 +49,9 @@ export type Album = {
   images: Image[];
   name: string;
   release_date: string;
-  release_date_precision: "year" | "month" | "day";
+  release_date_precision: 'year' | 'month' | 'day';
   total_tracks: number;
-  type: "album";
+  type: 'album';
   uri: string;
 };
 
@@ -75,7 +75,7 @@ export type SpotifyTrack = {
   popularity: number;
   preview_url: string | null;
   track_number: number;
-  type: "track";
+  type: 'track';
   uri: string;
 };
 

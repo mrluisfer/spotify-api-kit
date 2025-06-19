@@ -1,5 +1,5 @@
-import type { SpotifyClient } from "../SpotifyClient";
-import type { SpotifyId, SpotifyPlaylist } from "../types";
+import type { SpotifyClient } from "../SpotifyClient.js";
+import type { SpotifyId, SpotifyPlaylist } from "../types/index.js";
 
 export class PlaylistsService {
 	private spotifyClient: SpotifyClient;

@@ -1,5 +1,5 @@
-import { SpotifyClient } from "../../SpotifyClient";
-import { CLIENT_ID, CLIENT_SECRET } from "../../utils/constants";
+import { SpotifyClient } from "../../SpotifyClient.js";
+import { CLIENT_ID, CLIENT_SECRET } from "../credentials.js";
 
 describe("player service", () => {
 	let spotifyClient: SpotifyClient;

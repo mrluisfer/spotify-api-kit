@@ -1,6 +1,6 @@
-import { SpotifyClient } from "../../SpotifyClient";
-import { playlistMock } from "../../__mocks__/playlist.mock";
-import { CLIENT_ID, CLIENT_SECRET } from "../../utils/constants";
+import { SpotifyClient } from "../../SpotifyClient.js";
+import { playlistMock } from "../../__mocks__/playlist.mock.js";
+import { CLIENT_ID, CLIENT_SECRET } from "../credentials.js";
 
 describe("playlists service", () => {
 	let spotifyClient: SpotifyClient;

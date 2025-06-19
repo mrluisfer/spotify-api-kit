@@ -1,24 +1,27 @@
 import { Buffer as DependencyBuffer } from "buffer";
-import { ArtistsService } from "./services/artists";
-import { PlayerService } from "./services/player";
-import { PlaylistsService } from "./services/playlists";
-import { TracksService } from "./services/tracks";
-import type { AccessToken, RefreshToken } from "./types";
-import { API_TOKEN_URL, API_URL } from "./utils/constants";
-import { ApiErrors } from "./utils/errors";
+import { ArtistsService } from "./services/artists.js";
+import { PlayerService } from "./services/player.js";
+import { PlaylistsService } from "./services/playlists.js";
+import { SearchService } from "./services/search.js";
+import { TracksService } from "./services/tracks.js";
+import type { AccessToken, RefreshToken } from "./types/index.js";
+import { API_TOKEN_URL, API_URL } from "./utils/constants.js";
+import { ApiErrors } from "./utils/errors.js";
 
 export class SpotifyClient {
-	public accessToken: AccessToken | undefined;
+	private accessToken: AccessToken | undefined;
+
 	private readonly clientId: string;
 	private readonly clientSecret: string;
 	private readonly credentials: string;
 	private static instance: SpotifyClient | null;
 
 	// TODO: Verify if this is the correct way to initialize the services, or use other pattern
-	public artists: ArtistsService;
-	public player: PlayerService;
-	public tracks: TracksService;
-	public playlists: PlaylistsService;
+	public readonly artists: ArtistsService;
+	public readonly player: PlayerService;
+	public readonly tracks: TracksService;
+	public readonly playlists: PlaylistsService;
+	public readonly search: SearchService;
 
 	// This will be provided by the user
 	constructor(clientId: string, clientSecret: string, credentials?: string) {
@@ -32,6 +35,7 @@ export class SpotifyClient {
 		this.player = new PlayerService(this);
 		this.tracks = new TracksService(this);
 		this.playlists = new PlaylistsService(this);
+		this.search = new SearchService(this);
 	}
 
 	public static init(clientId: string, clientSecret: string) {
@@ -72,7 +76,7 @@ export class SpotifyClient {
 		return response.json();
 	}
 
-	public async getAccessToken(): Promise<AccessToken> {
+	private async getAccessToken(): Promise<AccessToken> {
 		return this.requestToken(
 			{
 				grant_type: "client_credentials",
@@ -83,7 +87,7 @@ export class SpotifyClient {
 		);
 	}
 
-	public async getRefreshToken(): Promise<RefreshToken> {
+	private async getRefreshToken(): Promise<RefreshToken> {
 		const data = await this.requestToken(
 			{
 				grant_type: "refresh_token",
@@ -102,7 +106,7 @@ export class SpotifyClient {
 		return data;
 	}
 
-	async getValidAccessToken() {
+	private async getValidAccessToken() {
 		if (!this.accessToken) {
 			this.accessToken = await this.getAccessToken();
 			return this.accessToken.access_token;
@@ -132,5 +136,13 @@ export class SpotifyClient {
 		}
 
 		return (await response.json()) as T;
+	}
+
+	public async getSpotifyCredentials() {
+		return {
+			clientId: this.clientId,
+			clientSecret: this.clientSecret,
+			credentials: this.credentials,
+		};
 	}
 }

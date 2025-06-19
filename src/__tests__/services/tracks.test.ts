@@ -1,10 +1,7 @@
-import { SpotifyClient } from "../../SpotifyClient";
-import { severalTracksMock, trackMock } from "../../__mocks__/track.mock";
-import {
-	CLIENT_ID,
-	CLIENT_SECRET,
-	SPOTIFY_TRACK_ID,
-} from "../../utils/constants";
+import { SpotifyClient } from "../../SpotifyClient.js";
+import { severalTracksMock, trackMock } from "../../__mocks__/track.mock.js";
+import { SPOTIFY_TRACK_ID } from "../../utils/constants.js";
+import { CLIENT_ID, CLIENT_SECRET } from "../credentials.js";
 
 const SPOTIFY_TRACK_ID_2 = "7ouMYWpwJ422jRcDASZB7P";
 describe("tracks service", () => {

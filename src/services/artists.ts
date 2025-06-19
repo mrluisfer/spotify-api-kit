@@ -1,6 +1,6 @@
-import type { SpotifyClient } from "../SpotifyClient";
-import type { Artist, SpotifyId } from "../types";
-import { ApiErrors } from "../utils/errors";
+import type { SpotifyClient } from "../SpotifyClient.js";
+import type { Artist, SpotifyId } from "../types/index.js";
+import { ApiErrors } from "../utils/errors.js";
 
 export class ArtistsService {
 	private spotifyClient: SpotifyClient;

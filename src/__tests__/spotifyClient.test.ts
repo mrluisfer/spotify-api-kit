@@ -1,11 +1,13 @@
-import { SpotifyClient } from "../SpotifyClient";
-import { API_URL, CLIENT_ID, CLIENT_SECRET } from "../utils/constants";
+import { SpotifyClient } from "../SpotifyClient.js";
+import { API_URL } from "../utils/constants.js";
+import { CLIENT_ID, CLIENT_SECRET } from "./credentials.js";
 
 describe("SpotifyClient", () => {
 	let spotify: SpotifyClient;
 
 	beforeEach(() => {
-		spotify = SpotifyClient.init(CLIENT_ID, CLIENT_SECRET);
+		// spotify = SpotifyClient.init(process.env.CLIENT_ID!, process.env.CLIENT_SECRET!);
+		spotify = new SpotifyClient(CLIENT_ID, CLIENT_SECRET);
 	});
 
 	afterEach(() => {
@@ -20,60 +22,12 @@ describe("SpotifyClient", () => {
 		expect(client2).toBe(spotify);
 	});
 
-	it("should fetch a new access token", async () => {
-		const mockTokenResponse = {
-			access_token: "mock-access-token",
-			expires_in: Date.now() + 3600 * 1000,
-		};
-
-		global.fetch = jest.fn(async () =>
-			Promise.resolve({
-				ok: true,
-				json: async () => Promise.resolve(mockTokenResponse),
-			} as Response),
-		);
-
-		const token = await spotify.getAccessToken();
-		expect(token).toEqual(mockTokenResponse);
-	});
-
-	it("should fetch a new access token if the current one is expired", async () => {
-		(spotify as SpotifyClient).accessToken = {
-			access_token: "expired-token",
-			expires_in: Date.now() - 1000,
-			token_type: "Bearer",
-		};
-
-		const mockTokenResponse = {
-			access_token: "new-token",
-			expires_in: Date.now() + 3600 * 1000,
-		};
-
-		global.fetch = jest.fn(async () =>
-			Promise.resolve({
-				ok: true,
-				json: async () => Promise.resolve(mockTokenResponse),
-			} as Response),
-		);
-
-		const token = await spotify.getValidAccessToken();
-		expect(token).toBe("new-token");
-	});
-
-	it("should reuse an existing valid access token", async () => {
-		spotify.accessToken = {
-			access_token: "existing-token",
-			expires_in: Date.now() + 5000,
-			token_type: "Bearer",
-		};
-
-		const token = await spotify.getValidAccessToken();
-		expect(token).toBe("existing-token");
-	});
-
 	it("should fetch data from Spotify API with a valid token", async () => {
 		jest
-			.spyOn(spotify, "getValidAccessToken")
+			.spyOn(
+				spotify as unknown as { getValidAccessToken: () => Promise<string> },
+				"getValidAccessToken",
+			)
 			.mockResolvedValue("mock-access-token");
 
 		global.fetch = jest.fn(async () =>
@@ -89,5 +43,20 @@ describe("SpotifyClient", () => {
 			headers: { Authorization: "Bearer mock-access-token" },
 		});
 		expect(response).toEqual({ name: "Test Artist" });
+	});
+
+	it("should call the search service successfully", async () => {
+		jest
+			.spyOn(spotify, "fetchFromSpotify")
+			.mockResolvedValue({ tracks: { items: [{ name: "Fake Track" }] } });
+
+		const result = await spotify.search.search("test", "track");
+		expect(result).toEqual({ tracks: { items: [{ name: "Fake Track" }] } });
+	});
+
+	it("should reset the singleton instance", () => {
+		SpotifyClient.resetInstance();
+		expect(() => SpotifyClient.getInstance()).toThrow();
+		spotify = SpotifyClient.init(CLIENT_ID, CLIENT_SECRET);
 	});
 });

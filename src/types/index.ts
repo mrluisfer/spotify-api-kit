@@ -153,3 +153,42 @@ export type SpotifyPlaylist = {
 	type: string;
 	uri: string;
 };
+
+export type SpotifySearchResponse = {
+	tracks?: {
+		href: string;
+		limit: number;
+		next: string | null;
+		offset: number;
+		previous: string | null;
+		total: number;
+		items: SpotifyTrack[];
+	};
+	artists?: {
+		items: Artist[];
+		href: string;
+		limit: number;
+		next: string | null;
+		offset: number;
+		previous: string | null;
+		total: number;
+	};
+	albums?: {
+		items: Album[];
+		href: string;
+		limit: number;
+		next: string | null;
+		offset: number;
+		previous: string | null;
+		total: number;
+	};
+	playlists?: {
+		items: SpotifyPlaylist[];
+		href: string;
+		limit: number;
+		next: string | null;
+		offset: number;
+		previous: string | null;
+		total: number;
+	};
+};

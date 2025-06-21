@@ -1,0 +1,13 @@
+assets/
+docs/
+*.png
+*.jpg
+*.jpeg
+*.gif
+test/
+__tests__/
+src/__tests__/
+src/__mocks__/
+coverage/
+*.md
+README.md

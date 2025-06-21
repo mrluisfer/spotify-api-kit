@@ -11,3 +11,7 @@ src/__mocks__/
 coverage/
 *.md
 README.md
+.vscode/
+.github/
+.idea/
+*.log

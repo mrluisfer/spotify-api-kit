@@ -6,7 +6,6 @@ describe("SpotifyClient", () => {
 	let spotify: SpotifyClient;
 
 	beforeEach(() => {
-		// spotify = SpotifyClient.init(process.env.CLIENT_ID!, process.env.CLIENT_SECRET!);
 		spotify = new SpotifyClient(CLIENT_ID, CLIENT_SECRET);
 	});
 
@@ -14,12 +13,10 @@ describe("SpotifyClient", () => {
 		jest.restoreAllMocks();
 	});
 
-	it("should initialize a single instance", () => {
-		const client2 = SpotifyClient.init(
-			"another-client-id",
-			"another-client-secret",
-		);
-		expect(client2).toBe(spotify);
+	it("should reset the singleton instance", () => {
+		SpotifyClient.resetInstance();
+		expect(() => SpotifyClient.getInstance()).toThrow();
+		spotify = SpotifyClient.init(CLIENT_ID, CLIENT_SECRET);
 	});
 
 	it("should fetch data from Spotify API with a valid token", async () => {

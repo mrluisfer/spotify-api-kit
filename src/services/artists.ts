@@ -1,4 +1,4 @@
-import type { SpotifyClient } from "../SpotifyClient.js";
+import type { SpotifyClient } from "../spotifyClient.js";
 import type { Artist, SpotifyId } from "../types/index.js";
 import { ApiErrors } from "../utils/errors.js";
 

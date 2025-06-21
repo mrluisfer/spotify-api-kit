@@ -1,5 +1,5 @@
-import { SpotifyClient } from "../../SpotifyClient.js";
 import { artistMock } from "../../__mocks__/artist.mock.js";
+import { SpotifyClient } from "../../spotifyClient.js";
 import { SPOTIFY_ARTIST_ID } from "../../utils/constants.js";
 import { CLIENT_ID, CLIENT_SECRET } from "../credentials.js";
 

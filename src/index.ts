@@ -1,5 +1,5 @@
 export * from "./types/index.js";
-export { SpotifyClient } from "./SpotifyClient.js";
+export { SpotifyClient } from "./spotifyClient.js";
 
 // export * from "./services/artists";
 // export * from "./services/tracks";

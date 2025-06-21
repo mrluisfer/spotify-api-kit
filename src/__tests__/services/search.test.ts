@@ -1,5 +1,5 @@
-import { SpotifyClient } from "../../SpotifyClient.js";
 import { SearchService } from "../../services/search.js";
+import { SpotifyClient } from "../../spotifyClient.js";
 import { CLIENT_ID, CLIENT_SECRET } from "../credentials.js";
 
 describe("search service", () => {

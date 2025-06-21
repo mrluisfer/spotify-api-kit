@@ -1,4 +1,4 @@
-import type { SpotifyClient } from "../SpotifyClient.js";
+import type { SpotifyClient } from "../spotifyClient.js";
 import type { SpotifySearchResponse } from "../types/index.js";
 
 export class SearchService {

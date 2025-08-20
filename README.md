@@ -152,15 +152,6 @@ Component Purpose Key Files:
 
 ⸻
 
-##### 📖 Further Reading
-
- • Getting Started
- • API Reference
- • Development Guide
- • Testing
-
-⸻
-
 ##### 📝 License
 
 MIT © 2025 Luis Alvarez

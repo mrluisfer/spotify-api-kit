@@ -268,6 +268,8 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - [ ] Advanced search filters
 - [ ] Rate limiting and retry mechanisms
 - [ ] WebSocket support for real-time updates
+- [ ] Improved error handling and logging
+- [ ] Several improvements...
 
 ## License
 

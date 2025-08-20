@@ -1,5 +1,5 @@
-import type { SpotifySeveralTracks, SpotifyTrack } from "../types";
-import { availableMarkets } from "./availableMarkets.mock";
+import type { SpotifySeveralTracks, SpotifyTrack } from "../types/index.js";
+import { availableMarkets } from "./availableMarkets.mock.js";
 
 export const trackMock: SpotifyTrack = {
 	album: {

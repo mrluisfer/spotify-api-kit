@@ -1,4 +1,4 @@
-import type { Artist } from "../types";
+import type { Artist } from "../types/index.js";
 
 export const artistMock: Artist = {
 	external_urls: {

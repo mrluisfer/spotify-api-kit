@@ -1,4 +1,4 @@
-import { availableMarkets } from "./availableMarkets.mock";
+import { availableMarkets } from "./availableMarkets.mock.js";
 
 export const currentPlayingTrack = {
 	timestamp: 1738980021249,

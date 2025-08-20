@@ -1,10 +1,10 @@
-import type { SpotifyPlaylist } from "../types";
-import { availableMarkets } from "./availableMarkets.mock";
+import type { SpotifyPlaylist } from "../types/index.js";
+import { availableMarkets } from "./availableMarkets.mock.js";
 
 export const playlistMock: SpotifyPlaylist = {
 	collaborative: false,
 	description:
-		"Stop thinking and have a good time listening to the best songs in the world ✨",
+		"Sumérgete y deja que cada nota te recuerde que aún en la tormenta, existe belleza.",
 	external_urls: {
 		spotify: "https://open.spotify.com/playlist/49spccWMHTuffh4NQiR4RN",
 	},

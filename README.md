@@ -62,6 +62,8 @@ const spotify = new SpotifyClient(
 
 ### 3. Basic Usage Examples
 
+![Test Image with Elysia.js](./assets/test.png)
+
 **Search for Artists:**
 
 ```typescript

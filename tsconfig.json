@@ -10,7 +10,7 @@
 		"declaration": true,
 		"rootDir": "./src",
 		"declarationMap": true,
-		"emitDeclarationOnly": false,
+		"emitDeclarationOnly": true,
 		"module": "nodenext",
 		"moduleResolution": "nodenext"
 	},

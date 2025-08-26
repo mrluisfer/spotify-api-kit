@@ -262,3 +262,5 @@ export class SpotifyClient {
 		return new SpotifyClient({ clientId, clientSecret });
 	}
 }
+
+export default SpotifyClient;

@@ -1,11 +1,14 @@
-import { SpotifyClient } from "../../spotifyClient.js";
+import { SpotifyClient } from "../../client.js";
 import { CLIENT_ID, CLIENT_SECRET } from "../credentials.js";
 
 describe("player service", () => {
 	let spotifyClient: SpotifyClient;
 
 	beforeEach(() => {
-		spotifyClient = new SpotifyClient(CLIENT_ID, CLIENT_SECRET);
+		spotifyClient = new SpotifyClient({
+			clientId: CLIENT_ID,
+			clientSecret: CLIENT_SECRET,
+		});
 	});
 
 	afterEach(() => {
@@ -14,6 +17,6 @@ describe("player service", () => {
 
 	it("should get current playing track", async () => {
 		const result = await spotifyClient.player.getCurrentPlayingTrack();
-		console.log(result);
+		console.log({ result });
 	});
 });

@@ -1,5 +1,5 @@
 import { severalTracksMock, trackMock } from "../../__mocks__/track.mock.js";
-import { SpotifyClient } from "../../spotifyClient.js";
+import { SpotifyClient } from "../../client.js";
 import { SPOTIFY_TRACK_ID } from "../../utils/constants.js";
 import { CLIENT_ID, CLIENT_SECRET } from "../credentials.js";
 
@@ -8,7 +8,10 @@ describe("tracks service", () => {
 	let spotifyClient: SpotifyClient;
 
 	beforeEach(() => {
-		spotifyClient = new SpotifyClient(CLIENT_ID, CLIENT_SECRET);
+		spotifyClient = new SpotifyClient({
+			clientId: CLIENT_ID,
+			clientSecret: CLIENT_SECRET,
+		});
 	});
 
 	afterEach(() => {

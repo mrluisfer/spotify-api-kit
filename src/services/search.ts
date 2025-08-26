@@ -1,13 +1,7 @@
-import type { SpotifyClient } from "../spotifyClient.js";
 import type { SpotifySearchResponse } from "../types/index.js";
+import { BaseService } from "./base-service.js";
 
-export class SearchService {
-	private spotifyClient: SpotifyClient;
-
-	constructor(spotifyClient: SpotifyClient) {
-		this.spotifyClient = spotifyClient;
-	}
-
+export class SearchService extends BaseService {
 	/**
 	 * Search for artists, albums, tracks, or playlists.
 	 * @param query The search query.
@@ -24,7 +18,7 @@ export class SearchService {
 		market?: string,
 	) {
 		const response: SpotifySearchResponse =
-			await this.spotifyClient.fetchFromSpotify(
+			await this.get<SpotifySearchResponse>(
 				`/search?q=${encodeURIComponent(query)}&type=${type}&limit=${limit || 20}&offset=${offset || 0}&market=${market || ""}`,
 			);
 

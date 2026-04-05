@@ -1,290 +1,293 @@
-# Spotify API Kit
+<p align="center">
+  <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/01/Spotify_Logo_RGB_Green.png" width="280" alt="Spotify API Kit" />
+</p>
 
-A modern, type-safe TypeScript wrapper for the Spotify Web API, designed for secure Node.js backend applications.
+<h1 align="center">spotify-api-kit</h1>
 
-[![npm version](https://badge.fury.io/js/spotify-api-kit.svg)](https://badge.fury.io/js/spotify-api-kit)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+<p align="center">
+  <strong>A modern, type-safe TypeScript wrapper for the Spotify Web API</strong>
+</p>
 
-## Overview
+<p align="center">
+  <a href="https://www.npmjs.com/package/spotify-api-kit"><img src="https://img.shields.io/npm/v/spotify-api-kit?style=flat-square&color=1DB954" alt="npm version" /></a>
+  <a href="https://www.npmjs.com/package/spotify-api-kit"><img src="https://img.shields.io/npm/dm/spotify-api-kit?style=flat-square&color=1DB954" alt="npm downloads" /></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License" /></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.7+-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" /></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-22+-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js" /></a>
+</p>
 
-The **Spotify API Kit** serves as a robust intermediary layer between Node.js applications and the Spotify Web API, providing a simplified, type-safe interface for accessing Spotify's music data and services. This library prioritizes security by handling authentication and API calls on the backend, keeping sensitive credentials away from client-side code.
+<p align="center">
+  <a href="#installation">Installation</a> &nbsp;&bull;&nbsp;
+  <a href="#quick-start">Quick Start</a> &nbsp;&bull;&nbsp;
+  <a href="#services">Services</a> &nbsp;&bull;&nbsp;
+  <a href="#api-reference">API Reference</a> &nbsp;&bull;&nbsp;
+  <a href="#contributing">Contributing</a>
+</p>
 
-### Architecture Flow
+---
 
-```md
-[Frontend Client]
-       ↓
-[Your API Endpoint] (e.g., /api/spotify/search)
-       ↓
-[Spotify API Kit] → [Spotify Web API]
-       ↓
-[Cleaned Response] → [Your Frontend]
-```
+## Why spotify-api-kit?
 
-## Key Features
+- **Full type safety** — Every response is typed with comprehensive TypeScript interfaces
+- **Automatic auth** — OAuth 2.0 client credentials + user auth with token refresh, handled for you
+- **Service-oriented** — Clean, modular services for each Spotify API domain
+- **Dual module** — ESM and CommonJS out of the box
+- **Testable** — Inject a custom `fetch` implementation for easy mocking
 
-- **🔒 Type Safety**: Comprehensive TypeScript definitions for all Spotify API responses
-- **🔐 Secure Authentication**: Built-in OAuth 2.0 client credentials flow with automatic token management
-- **🏗️ Service-Oriented Architecture**: Modular service classes for different API domains
-- **⚡ Modern Standards**: Full ESM and CommonJS support with Node.js 22+ compatibility
-- **🧪 Battle-Tested**: Comprehensive test suite with Jest and quality assurance tools
-- **📦 Zero Dependencies**: Lightweight implementation with minimal external dependencies
+---
 
 ## Installation
 
 ```bash
 npm install spotify-api-kit
-# or
-yarn add spotify-api-kit
-# or
-pnpm install spotify-api-kit
 ```
+
+```bash
+# or with your preferred package manager
+yarn add spotify-api-kit
+pnpm add spotify-api-kit
+```
+
+> Requires **Node.js 22** or later.
+
+---
 
 ## Quick Start
 
-### 1. Set Up Spotify Developer Application
+### 1. Get your credentials
 
-1. Visit the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-2. Create a new application
-3. Note your `Client ID` and `Client Secret`
+Create an app on the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) and grab your **Client ID** and **Client Secret**.
 
-### 2. Initialize the Client
+### 2. Initialize
 
 ```typescript
 import { SpotifyClient } from "spotify-api-kit";
 
-const spotify = new SpotifyClient(
-  process.env.SPOTIFY_CLIENT_ID!,
-  process.env.SPOTIFY_CLIENT_SECRET!
-);
+const spotify = new SpotifyClient({
+  clientId: process.env.SPOTIFY_CLIENT_ID!,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET!,
+});
+
+// Or load directly from env vars
+const spotify = SpotifyClient.fromEnv();
 ```
 
-### 3. Basic Usage Examples
-
-![Test Image with Elysia.js](./assets/test.png)
-
-**Search for Artists:**
+### 3. Use it
 
 ```typescript
+// Search for an artist
 const results = await spotify.search.search("Daft Punk", "artist");
-console.log(results.artists.items[0].name); // "Daft Punk"
-```
+console.log(results.artists.items[0].name);
 
-**Fetch Track Information:**
-
-```typescript
+// Get a track
 const track = await spotify.tracks.getTrack("7ouMYWpwJ422jRcDASZB7P");
-console.log(`Track: ${track.name} by ${track.artists.map(a => a.name).join(", ")}`);
+console.log(`${track.name} by ${track.artists.map(a => a.name).join(", ")}`);
+
+// Browse new releases
+const releases = await spotify.albums.getNewReleases();
 ```
 
-**Get Playlist Details:**
+---
+
+## Architecture
+
+```
+Your App ──> SpotifyClient ──> Spotify Web API
+                 │
+                 ├── AlbumsService
+                 ├── ArtistsService
+                 ├── TracksService
+                 ├── PlayerService
+                 ├── PlaylistsService
+                 ├── SearchService
+                 └── UserService
+```
+
+`SpotifyClient` manages authentication and lazily instantiates service classes, passing them a shared context with a valid access token, base URL, and fetch implementation.
+
+---
+
+## Services
+
+### Albums
 
 ```typescript
-const playlist = await spotify.playlists.getPlaylist("37i9dQZF1DXcBWIGoYBM5M");
-console.log(`Playlist: ${playlist.name} (${playlist.tracks.total} tracks)`);
+spotify.albums.getAlbum(id, market?)
+spotify.albums.getSeveralAlbums(ids, market?)
+spotify.albums.getAlbumTracks(id, market?, limit?, offset?)
+spotify.albums.getNewReleases(country?, limit?, offset?)
+spotify.albums.checkSavedAlbums(ids)
+spotify.albums.saveAlbums(ids)
+spotify.albums.removeSavedAlbums(ids)
 ```
+
+### Artists
+
+```typescript
+spotify.artists.getArtist(id)
+spotify.artists.getSeveralArtists(ids)
+spotify.artists.getArtistAlbums(id, options?)
+spotify.artists.getTopTracks(id, market?)
+spotify.artists.getRelatedArtists(id)
+```
+
+### Tracks
+
+```typescript
+spotify.tracks.getTrack(id, market?)
+spotify.tracks.getSeveralTracks(ids, market?)
+spotify.tracks.getAudioFeatures(id)
+spotify.tracks.getSeveralAudioFeatures(ids)
+spotify.tracks.checkSavedTracks(ids)
+spotify.tracks.saveTracks(ids)
+spotify.tracks.removeSavedTracks(ids)
+spotify.tracks.getRecommendations(options)
+```
+
+### Player
+
+```typescript
+spotify.player.getCurrentPlayingTrack(market?)
+spotify.player.getPlaybackState(market?)
+spotify.player.getRecentlyPlayed(limit?, after?, before?)
+spotify.player.getQueue()
+spotify.player.getAvailableDevices()
+spotify.player.play(options?)
+spotify.player.pause(device_id?)
+spotify.player.skipToNext(device_id?)
+spotify.player.skipToPrevious(device_id?)
+spotify.player.setVolume(volumePercent, device_id?)
+spotify.player.setShuffle(state, device_id?)
+spotify.player.setRepeat(state, device_id?)
+spotify.player.seek(positionMs, device_id?)
+spotify.player.addToQueue(uri, device_id?)
+```
+
+### Playlists
+
+```typescript
+spotify.playlists.getPlaylist(id, market?)
+spotify.playlists.getPlaylistTracks(id, market?, limit?, offset?)
+spotify.playlists.getCurrentUserPlaylists(limit?, offset?)
+spotify.playlists.getUserPlaylists(userId, limit?, offset?)
+spotify.playlists.getFeaturedPlaylists(options?)
+spotify.playlists.getCategoryPlaylists(categoryId, options?)
+spotify.playlists.getCategory(categoryId, options?)
+spotify.playlists.getCategories(options?)
+```
+
+### Search
+
+```typescript
+spotify.search.search(query, type, market?, limit?, offset?)
+```
+
+### User
+
+```typescript
+spotify.user.me()
+spotify.user.getProfile(userId)
+spotify.user.getTopItems(type, options?)
+spotify.user.getSavedTracks(limit?, offset?, market?)
+spotify.user.getSavedAlbums(limit?, offset?, market?)
+spotify.user.getFollowedArtists(limit?, after?)
+spotify.user.followArtists(ids)
+spotify.user.unfollowArtists(ids)
+spotify.user.checkFollowingArtists(ids)
+```
+
+---
 
 ## API Reference
 
-### Core Services
+### `SpotifyClient`
 
-The SpotifyClient provides access to several specialized service classes:
+| Option | Type | Description |
+|---|---|---|
+| `clientId` | `string` | Your Spotify app Client ID |
+| `clientSecret` | `string` | Your Spotify app Client Secret |
+| `credentialsBase64?` | `string` | Pre-encoded credentials (optional) |
+| `baseUrl?` | `string` | Override API base URL |
+| `fetchImpl?` | `typeof fetch` | Custom fetch for testing |
+| `clock?` | `() => number` | Custom clock for testing |
+| `tokenSkewMs?` | `number` | Token refresh skew (default: 10s) |
 
-```typescript
-class SpotifyClient {
-  artists: ArtistsService;      // Artist-related operations
-  tracks: TracksService;        // Track management
-  player: PlayerService;        // Playback control
-  playlists: PlaylistsService;  // Playlist operations
-  search: SearchService;        // Search functionality
-}
-```
+### User Authentication
 
-### Service Methods
-
-#### ArtistsService
+For endpoints that require user authorization (player, user profile, saved items):
 
 ```typescript
-await spotify.artists.getArtist(artistId);
-await spotify.artists.getArtistAlbums(artistId);
-await spotify.artists.getArtistTopTracks(artistId);
+// After completing the OAuth Authorization Code flow
+spotify.setUserAuth({
+  access_token: "...",
+  token_type: "Bearer",
+  expires_in: 3600,
+  refresh_token: "...",
+  scope: "user-read-private user-read-email",
+});
+
+// Token refresh is handled automatically
+const me = await spotify.user.me();
+
+// Clear user session
+spotify.clearUserAuth();
 ```
 
-#### TracksService
-
-```typescript
-await spotify.tracks.getTrack(trackId);
-await spotify.tracks.getSeveralTracks(trackIds);
-await spotify.tracks.getTrackFeatures(trackId);
-```
-
-#### SearchService
-
-```typescript
-await spotify.search.search(query, type); // type: 'artist' | 'track' | 'album' | 'playlist'
-```
-
-#### PlaylistsService
-
-```typescript
-await spotify.playlists.getPlaylist(playlistId);
-await spotify.playlists.getPlaylistTracks(playlistId);
-```
-
-## Project Structure
-
-```md
-src/
-├── SpotifyClient.ts      # Main client class
-├── services/             # Service layer implementations
-│   ├── ArtistsService.ts
-│   ├── TracksService.ts
-│   ├── PlayerService.ts
-│   ├── PlaylistsService.ts
-│   └── SearchService.ts
-├── types/               # TypeScript type definitions
-├── constants/           # API endpoints and configuration
-├── utils/              # Utility functions and error handling
-└── index.ts            # Package entry point
-```
-
-## Development
-
-### Prerequisites
-
-- Node.js 22+
-- npm, yarn, or pnpm
-
-### Setup
-
-```bash
-# Install dependencies
-npm install
-
-# Run tests
-npm test
-
-# Run tests with coverage
-npm run test:coverage
-
-# Lint code
-npm run lint
-
-# Format code
-npm run format
-
-# Build package
-npm run build
-```
-
-### Quality Assurance
-
-This project maintains high code quality through:
-
-- **ESLint**: TypeScript-specific linting rules
-- **Prettier**: Consistent code formatting
-- **Biome**: Additional formatting and linting
-- **Jest**: Comprehensive test coverage
-- **Husky**: Pre-commit hooks for code quality
-- **lint-staged**: Staged file linting
+---
 
 ## Error Handling
-
-The library provides comprehensive error handling for common scenarios:
 
 ```typescript
 try {
   const track = await spotify.tracks.getTrack("invalid-id");
 } catch (error) {
-  if (error.status === 404) {
-    console.log("Track not found");
-  } else if (error.status === 401) {
-    console.log("Authentication failed");
-  }
+  // Errors include status codes from the Spotify API
+  console.error(error.message);
 }
 ```
-
-## Security Considerations
-
-- **Never expose credentials**: Always use environment variables for client secrets
-- **Backend-only**: This library is designed for server-side use only
-- **Token management**: Automatic token refresh and caching handled internally
-- **HTTPS only**: All requests are made over secure connections
-
-## Example Response
-
-```typescript
-// Example playlist response structure
-{
-  collaborative: false,
-  description: "Curated indie rock playlist for coding sessions",
-  external_urls: {
-    spotify: "https://open.spotify.com/playlist/49spccWMHTuffh4NQiR4RN"
-  },
-  followers: {
-    href: null,
-    total: 9
-  },
-  id: "49spccWMHTuffh4NQiR4RN",
-  images: [{
-    height: null,
-    url: "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84d3ab77ccc0b00f72d49336c0",
-    width: null
-  }],
-  name: "Indie Rock Essentials",
-  owner: {
-    display_name: "Music Curator",
-    external_urls: {
-      spotify: "https://open.spotify.com/user/musiccurator"
-    },
-    id: "musiccurator",
-    type: "user"
-  },
-  public: true,
-  tracks: {
-    href: "https://api.spotify.com/v1/playlists/49spccWMHTuffh4NQiR4RN/tracks",
-    items: [
-      // Track objects...
-    ],
-    total: 1274
-  },
-  type: "playlist"
-}
-```
-
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
-
-## Roadmap
-
-- [ ] Support for user authentication flows
-- [ ] Playlist modification operations
-- [ ] Advanced search filters
-- [ ] Rate limiting and retry mechanisms
-- [ ] WebSocket support for real-time updates
-- [ ] Improved error handling and logging
-- [ ] Several improvements...
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-- 📖 [Documentation](https://github.com/mrluisfer/spotify-api-kit/docs)
-- 🐛 [Issue Tracker](https://github.com/mrluisfer/spotify-api-kit/issues)
-- 💬 [Discussions](https://github.com/mrluisfer/spotify-api-kit/discussions)
 
 ---
 
-**Built with ❤️ by [Luis Alvarez](https://github.com/mrluisfer)**
+## Development
 
-*Making Spotify integration simple, secure, and type-safe.*
+```bash
+npm install          # Install dependencies
+npm test             # Run tests
+npm run test:coverage # Tests with coverage
+npm run lint         # ESLint
+npm run build        # Build with tsup
+```
+
+### Tooling
+
+| Tool | Purpose |
+|---|---|
+| **tsup** | Build (ESM + CJS) |
+| **Jest** + ts-jest | Testing |
+| **ESLint** | Linting (xo-typescript config) |
+| **Biome** | Formatting (tabs, double quotes) |
+| **Husky** + lint-staged | Pre-commit quality gates |
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/my-feature`
+3. Commit your changes: `git commit -m 'feat: add my feature'`
+4. Push to the branch: `git push origin feature/my-feature`
+5. Open a Pull Request
+
+---
+
+## License
+
+[MIT](LICENSE) &copy; [Luis Alvarez](https://github.com/mrluisfer)
+
+---
+
+<p align="center">
+  <a href="https://github.com/mrluisfer/spotify-api-kit/issues">Report a bug</a> &nbsp;&bull;&nbsp;
+  <a href="https://github.com/mrluisfer/spotify-api-kit/discussions">Discussions</a> &nbsp;&bull;&nbsp;
+  <a href="https://www.npmjs.com/package/spotify-api-kit">npm</a>
+</p>

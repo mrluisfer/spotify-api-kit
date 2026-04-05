@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/01/Spotify_Logo_RGB_Green.png" width="280" alt="Spotify API Kit" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" width="280" alt="Spotify API Kit" />
 </p>
 
 <h1 align="center">spotify-api-kit</h1>

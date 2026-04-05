@@ -1,10 +1,12 @@
 // src/client.ts
 import { Buffer as DependencyBuffer } from "buffer";
+import { AlbumsService } from "./services/albums.js";
 import { ArtistsService } from "./services/artists.js";
 import { PlayerService } from "./services/player.js";
 import { PlaylistsService } from "./services/playlists.js";
 import { SearchService } from "./services/search.js";
 import { TracksService } from "./services/tracks.js";
+import { UserService } from "./services/user.js";
 import type { PersistedUserAuth, UserTokens } from "./types/auth/types.js";
 import type { AccessToken } from "./types/index.js";
 import { API_TOKEN_URL, API_URL } from "./utils/constants.js";
@@ -37,11 +39,13 @@ export class SpotifyClient {
 	private readonly tokenSkewMs: number;
 
 	// lazy services
+	private _albums?: AlbumsService;
 	private _artists?: ArtistsService;
 	private _player?: PlayerService;
 	private _tracks?: TracksService;
 	private _playlists?: PlaylistsService;
 	private _search?: SearchService;
+	private _user?: UserService;
 
 	private userAuth?: PersistedUserAuth;
 
@@ -60,6 +64,12 @@ export class SpotifyClient {
 		this.tokenSkewMs = cfg.tokenSkewMs ?? 10_000; // 10s
 	}
 
+	get albums() {
+		if (!this._albums) {
+			this._albums = new AlbumsService(this.ctx);
+		}
+		return this._albums;
+	}
 	get artists() {
 		if (!this._artists) {
 			this._artists = new ArtistsService(this.ctx);
@@ -89,6 +99,12 @@ export class SpotifyClient {
 			this._search = new SearchService(this.ctx);
 		}
 		return this._search;
+	}
+	get user() {
+		if (!this._user) {
+			this._user = new UserService(this.ctx);
+		}
+		return this._user;
 	}
 
 	private get ctx(): ClientContext {

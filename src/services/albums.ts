@@ -53,10 +53,9 @@ export class AlbumsService extends BaseService {
 	 * Get a list of new album releases featured in Spotify.
 	 * @link https://developer.spotify.com/documentation/web-api/reference/get-new-releases
 	 */
-	public async getNewReleases(options: {
-		limit?: number;
-		offset?: number;
-	} = {}): Promise<NewReleases> {
+	public async getNewReleases(
+		options: { limit?: number; offset?: number } = {},
+	): Promise<NewReleases> {
 		const params = new URLSearchParams();
 		if (options.limit) params.set("limit", String(options.limit));
 		if (options.offset) params.set("offset", String(options.offset));
@@ -72,9 +71,7 @@ export class AlbumsService extends BaseService {
 	 * @link https://developer.spotify.com/documentation/web-api/reference/check-users-saved-albums
 	 */
 	public async checkSavedAlbums(ids: SpotifyId[]): Promise<boolean[]> {
-		return this.get<boolean[]>(
-			`/me/albums/contains?ids=${ids.join(",")}`,
-		);
+		return this.get<boolean[]>(`/me/albums/contains?ids=${ids.join(",")}`);
 	}
 
 	/**

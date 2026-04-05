@@ -154,41 +154,145 @@ export type SpotifyPlaylist = {
 	uri: string;
 };
 
+export type PaginatedResponse<T> = {
+	href: string;
+	limit: number;
+	next: string | null;
+	offset: number;
+	previous: string | null;
+	total: number;
+	items: T[];
+};
+
+export type CursorPaginatedResponse<T> = {
+	href: string;
+	limit: number;
+	next: string | null;
+	cursors: { after: string | null; before?: string | null };
+	total?: number;
+	items: T[];
+};
+
 export type SpotifySearchResponse = {
-	tracks?: {
-		href: string;
-		limit: number;
-		next: string | null;
-		offset: number;
-		previous: string | null;
-		total: number;
-		items: SpotifyTrack[];
+	tracks?: PaginatedResponse<SpotifyTrack>;
+	artists?: PaginatedResponse<Artist>;
+	albums?: PaginatedResponse<Album>;
+	playlists?: PaginatedResponse<SpotifyPlaylist>;
+};
+
+// ---- Audio Features ----
+
+export type AudioFeatures = {
+	acousticness: number;
+	analysis_url: string;
+	danceability: number;
+	duration_ms: number;
+	energy: number;
+	id: SpotifyId;
+	instrumentalness: number;
+	key: number;
+	liveness: number;
+	loudness: number;
+	mode: number;
+	speechiness: number;
+	tempo: number;
+	time_signature: number;
+	track_href: string;
+	type: "audio_features";
+	uri: string;
+	valence: number;
+};
+
+export type SeveralAudioFeatures = {
+	audio_features: AudioFeatures[];
+};
+
+// ---- User Profile ----
+
+export type SpotifyUserProfile = {
+	country?: string;
+	display_name: string | null;
+	email?: string;
+	explicit_content?: {
+		filter_enabled: boolean;
+		filter_locked: boolean;
 	};
-	artists?: {
-		items: Artist[];
-		href: string;
-		limit: number;
-		next: string | null;
-		offset: number;
-		previous: string | null;
-		total: number;
+	external_urls: ExternalUrls;
+	followers: Followers;
+	href: string;
+	id: SpotifyId;
+	images: Image[];
+	product?: string;
+	type: "user";
+	uri: string;
+};
+
+// ---- Saved Items ----
+
+export type SavedTrack = {
+	added_at: string;
+	track: SpotifyTrack;
+};
+
+export type SavedAlbum = {
+	added_at: string;
+	album: Album & {
+		tracks: PaginatedResponse<SpotifyTrack>;
 	};
-	albums?: {
-		items: Album[];
-		href: string;
-		limit: number;
-		next: string | null;
-		offset: number;
-		previous: string | null;
-		total: number;
-	};
-	playlists?: {
-		items: SpotifyPlaylist[];
-		href: string;
-		limit: number;
-		next: string | null;
-		offset: number;
-		previous: string | null;
-		total: number;
-	};
+};
+
+// ---- Player / Playback ----
+
+export type SpotifyDevice = {
+	id: string | null;
+	is_active: boolean;
+	is_private_session: boolean;
+	is_restricted: boolean;
+	name: string;
+	type: string;
+	volume_percent: number | null;
+	supports_volume: boolean;
+};
+
+export type PlaybackState = {
+	device: SpotifyDevice;
+	repeat_state: "off" | "track" | "context";
+	shuffle_state: boolean;
+	context: Context | null;
+	timestamp: number;
+	progress_ms: number | null;
+	is_playing: boolean;
+	item: SpotifyTrack | null;
+	currently_playing_type: "track" | "episode" | "ad" | "unknown";
+};
+
+export type SpotifyQueue = {
+	currently_playing: SpotifyTrack | null;
+	queue: SpotifyTrack[];
+};
+
+export type PlayHistory = {
+	track: SpotifyTrack;
+	played_at: string;
+	context: Context | null;
+};
+
+export type RecentlyPlayed = CursorPaginatedResponse<PlayHistory>;
+
+// ---- Categories / Browse ----
+
+export type SpotifyCategory = {
+	href: string;
+	icons: Image[];
+	id: string;
+	name: string;
+};
+
+export type FeaturedPlaylists = {
+	message: string;
+	playlists: PaginatedResponse<SpotifyPlaylist>;
+};
+
+export type NewReleases = {
+	albums: PaginatedResponse<Album>;
 };
